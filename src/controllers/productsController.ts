@@ -7,7 +7,19 @@ const router = express.Router();
 let products: Product[] = [...initialProducts];
 
 router.get('/products', (req, res) => {
-  res.json(products);
+  const page = parseInt(req.query.page as string, 10) || 1;
+  const limit = parseInt(req.query.limit as string, 10) || 5;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  const paginatedProducts = products.slice(startIndex, endIndex);
+  res.json({
+    page,
+    limit,
+    total: products.length,
+    totalPages: Math.ceil(products.length / limit),
+    products: paginatedProducts,
+  });
 });
 
 router.post('/products', (req, res) => {
