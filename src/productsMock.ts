@@ -6,7 +6,7 @@ export let productsMock: Product[] = [
     title: 'Frozen Yoghurt',
     description: '<p>Delicious frozen yoghurt with a variety of flavors.</p>',
     status: 'active',
-    image: '/assets/frozen-yogurt.jpeg',
+    image: 'http://localhost:8000/assets/frozen-yogurt.jpeg',
     price: 5.99,
   },
   {
@@ -14,7 +14,7 @@ export let productsMock: Product[] = [
     title: 'Ice Cream Sandwich',
     description: '<p>A tasty ice cream sandwich with chocolate cookies.</p>',
     status: 'active',
-    image: '/assets/ice-cream-sandwich.png',
+    image: 'http://localhost:8000/assets/ice-cream-sandwich.png',
     price: 3.49,
   },
   {
@@ -22,7 +22,7 @@ export let productsMock: Product[] = [
     title: 'Eclair',
     description: '<p>Classic French pastry filled with creamy custard.</p>',
     status: 'active',
-    image: '/assets/eclair.jpeg',
+    image: 'http://localhost:8000/assets/eclair.jpeg',
     price: 4.99,
   },
   {
@@ -30,7 +30,7 @@ export let productsMock: Product[] = [
     title: 'Cupcake',
     description: '<p>Moist and fluffy cupcake with a choice of frosting.</p>',
     status: 'active',
-    image: '/assets/cupcake.jpg',
+    image: 'http://localhost:8000/assets/cupcake.jpg',
     price: 2.99,
   },
   {
@@ -38,7 +38,7 @@ export let productsMock: Product[] = [
     title: 'Gingerbread',
     description: '<p>Spicy and sweet gingerbread cookies.</p>',
     status: 'active',
-    image: '/assets/gingerbread.jpg',
+    image: 'http://localhost:8000/assets/gingerbread.jpg',
     price: 1.99,
   },
   {
@@ -46,7 +46,7 @@ export let productsMock: Product[] = [
     title: 'Chocolate Cake',
     description: '<p>Rich and creamy chocolate cake.</p>',
     status: 'active',
-    image: '/assets/chocolate-cake.jpeg',
+    image: 'http://localhost:8000/assets/chocolate-cake.jpeg',
     price: 6.99,
   },
   {
@@ -54,7 +54,7 @@ export let productsMock: Product[] = [
     title: 'Cheesecake',
     description: '<p>Classic cheesecake with a graham cracker crust.</p>',
     status: 'active',
-    image: '/assets/cheesecake.jpeg',
+    image: 'http://localhost:8000/assets/cheesecake.jpeg',
     price: 7.49,
   },
   {
@@ -62,7 +62,7 @@ export let productsMock: Product[] = [
     title: 'Apple Pie',
     description: '<p>Traditional apple pie with a flaky crust.</p>',
     status: 'archive',
-    image: '/assets/apple-pie.jpeg',
+    image: 'http://localhost:8000/assets/apple-pie.jpeg',
     price: 5.49,
   },
   {
@@ -70,7 +70,7 @@ export let productsMock: Product[] = [
     title: 'Brownie',
     description: '<p>Chocolate brownie with walnuts.</p>',
     status: 'archive',
-    image: '/assets/brownie.jpg',
+    image: 'http://localhost:8000/assets/brownie.jpg',
     price: 2.99,
   },
   {
@@ -78,7 +78,7 @@ export let productsMock: Product[] = [
     title: 'Lemon Tart',
     description: '<p>Tart and tangy lemon tart with a buttery crust.</p>',
     status: 'active',
-    image: '/assets/lemon-tart.jpg',
+    image: 'http://localhost:8000/assets/lemon-tart.jpg',
     price: 4.49,
   },
 ];
