@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "Frozen Yoghurt",
+    "description": "<p>Delicious frozen yoghurt with a variety of flavors.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/frozen-yogurt.jpeg",
+    "price": 5.99
+  },
+  {
+    "id": 2,
+    "title": "Ice Cream Sandwich",
+    "description": "<p>A tasty ice cream sandwich with chocolate cookies.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/ice-cream-sandwich.png",
+    "price": 3.49
+  },
+  {
+    "id": 3,
+    "title": "Eclair",
+    "description": "<p>Classic French pastry filled with creamy custard.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/eclair.jpeg",
+    "price": 4.99
+  },
+  {
+    "id": 4,
+    "title": "Cupcake",
+    "description": "<p>Moist and fluffy cupcake with a choice of frosting.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/cupcake.jpg",
+    "price": 2.99
+  },
+  {
+    "id": 5,
+    "title": "Gingerbread",
+    "description": "<p>Spicy and sweet gingerbread cookies.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/gingerbread.jpg",
+    "price": 1.99
+  },
+  {
+    "id": 6,
+    "title": "Chocolate Cake",
+    "description": "<p>Rich and creamy chocolate cake.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/chocolate-cake.jpeg",
+    "price": 6.99
+  },
+  {
+    "id": 7,
+    "title": "Cheesecake",
+    "description": "<p>Classic cheesecake with a graham cracker crust.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/cheesecake.jpeg",
+    "price": 7.49
+  },
+  {
+    "id": 8,
+    "title": "Apple Pie",
+    "description": "<p>Traditional apple pie with a flaky crust.</p>",
+    "status": "archive",
+    "image": "http://localhost:8000/assets/apple-pie.jpeg",
+    "price": 5.49
+  },
+  {
+    "id": 9,
+    "title": "Brownie",
+    "description": "<p>Chocolate brownie with walnuts.</p>",
+    "status": "archive",
+    "image": "http://localhost:8000/assets/brownie.jpg",
+    "price": 2.99
+  },
+  {
+    "id": 10,
+    "title": "Lemon Tart",
+    "description": "<p>Tart and tangy lemon tart with a buttery crust.</p>",
+    "status": "active",
+    "image": "http://localhost:8000/assets/b52b78de-9f93-4397-aa46-60a3e4b2cfcb",
+    "price": 4.5
+  }
+]
