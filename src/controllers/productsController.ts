@@ -1,43 +1,105 @@
+import bodyParser from 'body-parser';
 import express from 'express';
-import { productsMock as initialProducts } from '../productsMock';
+import fs from 'fs';
+import path from 'path';
+import MulterService from '../services/multerService';
 import { Product } from '../types';
 
 const router = express.Router();
+const productsFilePath = path.join(__dirname, '../productsMock.json');
 
-let products: Product[] = [...initialProducts];
+let products: Product[] = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
-router.get('/products', (req, res) => {
-  res.json(products);
-});
+const saveProductsToFile = () => {
+  fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2));
+};
 
-router.post('/products', (req, res) => {
-  const newProduct: Product = {
-    id: products.length + 1,
-    title: req.body.title,
-    description: req.body.description,
-    status: req.body.status,
-    image: req.body.image,
-    price: req.body.price,
-  };
-  products.push(newProduct);
-  res.json(newProduct);
-});
+const getNextId = () => {
+  const maxId = products.reduce((max, product) => (product.id > max ? product.id : max), 0);
+  return maxId + 1;
+};
 
-router.put('/products/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const productIndex = products.findIndex(product => product.id === id);
-  if (productIndex !== -1) {
-    products[productIndex] = { ...products[productIndex], ...req.body };
-    res.json(products[productIndex]);
-  } else {
-    res.status(404).send({ message: 'Product not found' });
+router.use(bodyParser.json());
+
+router.get('/products', (req, res, next) => {
+  try {
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 5;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+
+    const paginatedProducts = products.slice(startIndex, endIndex);
+    res.status(200).json({
+      page,
+      limit,
+      total: products.length,
+      totalPages: Math.ceil(products.length / limit),
+      products: paginatedProducts,
+    });
+  } catch (error) {
+    next(error);
   }
 });
 
-router.delete('/products/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  products = products.filter(product => product.id !== id);
-  res.status(204).send();
+router.post('/products', MulterService.upload.array('images', 10), (req, res, next) => {
+  try {
+    const { title, description, status, price } = req.body;
+    const files = req.files as Express.Multer.File[];
+    const imageFiles = MulterService.checkMagic(files).map(fileName => `http://localhost:8000/assets/${fileName}`);
+
+    const newProduct: Product = {
+      id: getNextId(),
+      title,
+      description,
+      status,
+      image: imageFiles.join(','),
+      price: parseFloat(price),
+    };
+
+    products.push(newProduct);
+    saveProductsToFile();
+    res.status(201).json(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/products/:id', MulterService.upload.array('images', 10), (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const productIndex = products.findIndex(product => product.id === id);
+    if (productIndex !== -1) {
+      const { title, description, status, price } = req.body;
+      const files = req.files as Express.Multer.File[];
+      const imageFiles = files.length > 0 ? MulterService.checkMagic(files) : [];
+
+      products[productIndex] = {
+        ...products[productIndex],
+        title,
+        description,
+        status,
+        price: parseFloat(price),
+        image: imageFiles.length > 0 ? imageFiles.join(',') : products[productIndex].image,
+      };
+      saveProductsToFile();
+      res.status(200).json(products[productIndex]);
+    } else {
+      res.status(404).send({ message: 'Product not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/products/:id', (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    products = products.filter(product => product.id !== id);
+    saveProductsToFile();
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;
