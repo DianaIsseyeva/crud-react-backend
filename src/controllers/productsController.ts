@@ -38,6 +38,17 @@ router.get('/products', (req, res) => {
   });
 });
 
+router.get('/products/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const product = products.find(p => p.id === id);
+
+  if (product) {
+    res.status(200).json(product);
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+});
+
 router.post('/products', MulterService.upload.array('images', 10), (req, res, next) => {
   try {
     const { title, description, status, price } = req.body;
