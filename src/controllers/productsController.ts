@@ -22,7 +22,7 @@ const getNextId = () => {
 
 router.use(bodyParser.json());
 
-router.get('/products', (req, res) => {
+router.get('/api/products', (req, res) => {
   const page = parseInt(req.query.page as string, 10) || 1;
   const limit = parseInt(req.query.limit as string, 10) || 5;
   const title = req.query.title as string;
@@ -45,7 +45,7 @@ router.get('/products', (req, res) => {
   });
 });
 
-router.get('/products/:id', (req, res) => {
+router.get('/api/products/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const product = products.find(p => p.id === id);
 
@@ -56,7 +56,7 @@ router.get('/products/:id', (req, res) => {
   }
 });
 
-router.post('/products', MulterService.upload.array('images', 10), (req, res, next) => {
+router.post('/api/products', MulterService.upload.array('images', 10), (req, res, next) => {
   try {
     const { title, description, status, price } = req.body;
     const files = req.files as Express.Multer.File[];
@@ -79,7 +79,7 @@ router.post('/products', MulterService.upload.array('images', 10), (req, res, ne
   }
 });
 
-router.put('/products/:id', MulterService.upload.array('images', 10), (req, res, next) => {
+router.put('/api/products/:id', MulterService.upload.array('images', 10), (req, res, next) => {
   try {
     const id = parseInt(req.params.id, 10);
     const productIndex = products.findIndex(product => product.id === id);
@@ -133,7 +133,7 @@ router.put('/products/:id', MulterService.upload.array('images', 10), (req, res,
   }
 });
 
-router.delete('/products/:id', (req, res) => {
+router.delete('/api/products/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   products = products.filter(product => product.id !== id);
   saveProductsToFile();
