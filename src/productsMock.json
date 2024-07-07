@@ -72,11 +72,11 @@
     "price": 2.99
   },
   {
-    "id": 11,
+    "id": 10,
     "title": "Lemon Tart",
     "description": "<p>Tart and tangy lemon tart with a buttery crust.</p>",
     "status": "active",
-    "image": "http://localhost:8000/assets/e483746d-aada-479e-9962-1bccd5db8e6c",
+    "image": "http://localhost:8000/assets/557e5e4a-5567-4bdf-858d-d54da37bed35",
     "price": 11
   }
 ]
