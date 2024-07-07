@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import bodyParser from 'body-parser';
 import express from 'express';
+import fs from 'fs';
+import path from 'path';
 import MulterService from '../services/multerService';
 import { Product } from '../types';
 
@@ -25,15 +25,22 @@ router.use(bodyParser.json());
 router.get('/products', (req, res) => {
   const page = parseInt(req.query.page as string, 10) || 1;
   const limit = parseInt(req.query.limit as string, 10) || 5;
+  const title = req.query.title as string;
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
 
-  const paginatedProducts = products.slice(startIndex, endIndex);
+  let filteredProducts = products;
+
+  if (title) {
+    filteredProducts = products.filter(product => product.title.toLowerCase().includes(title.toLowerCase()));
+  }
+
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
   res.status(200).json({
     page,
     limit,
-    total: products.length,
-    totalPages: Math.ceil(products.length / limit),
+    total: filteredProducts.length,
+    totalPages: Math.ceil(filteredProducts.length / limit),
     products: paginatedProducts,
   });
 });
@@ -76,6 +83,7 @@ router.put('/products/:id', MulterService.upload.array('images', 10), (req, res,
   try {
     const id = parseInt(req.params.id, 10);
     const productIndex = products.findIndex(product => product.id === id);
+
     if (productIndex !== -1) {
       const { title, description, status, price } = req.body;
       const files = req.files as Express.Multer.File[];
@@ -94,17 +102,28 @@ router.put('/products/:id', MulterService.upload.array('images', 10), (req, res,
         price: parseFloat(price),
         image: imageFiles.length > 0 ? imageFiles.join(',') : products[productIndex].image,
       };
-      saveProductsToFile();
 
       if (imageFiles.length > 0) {
         oldImages.forEach(image => {
           const imagePath = path.join(assetsPath, path.basename(new URL(image).pathname));
-          fs.unlink(imagePath, err => {
-            if (err) console.error(`Failed to delete old image: ${imagePath}`, err);
+
+          fs.access(imagePath, fs.constants.F_OK, err => {
+            if (!err) {
+              fs.unlink(imagePath, err => {
+                if (err) {
+                  console.error(`Failed to delete old image: ${imagePath}`, err);
+                } else {
+                  console.log(`Successfully deleted old image: ${imagePath}`);
+                }
+              });
+            } else {
+              console.error(`File not found: ${imagePath}`);
+            }
           });
         });
       }
 
+      saveProductsToFile();
       res.status(200).json(products[productIndex]);
     } else {
       res.status(404).send({ message: 'Product not found' });
